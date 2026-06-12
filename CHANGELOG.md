@@ -1,4 +1,6 @@
 # Unreleased
+
+# 4.5.2 (Jun, 2026)
 * Use concrete Trilogy connection exception classes in retry configuration.
 
 # 4.5.1 (Jul, 2025)
