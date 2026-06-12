@@ -158,7 +158,7 @@ module Lhm
         base_interval: 1, # the initial interval in seconds between tries.
         tries: 20, # Number of attempts to make at running your code block (includes initial attempt).
         rand_factor: 0, # percentage to randomize the next retry interval time
-        max_elapsed_time: nil, # max total time in seconds that code is allowed to keep being retried
+        max_elapsed_time: Float::MAX, # max total time in seconds that code is allowed to keep being retried
         on_retry: Proc.new do |exception, try_number, total_elapsed_time, next_interval|
           log_with_prefix("#{exception.class}: '#{exception.message}' - #{try_number} tries in #{total_elapsed_time} seconds and #{next_interval} seconds until the next try.", :error)
         end

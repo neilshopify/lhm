@@ -6,10 +6,10 @@ require 'trilogy'
 
 describe Lhm::SqlRetry do
   describe '#default_retry_config' do
-    it 'uses an unbounded max elapsed time value compatible with retriable validation' do
+    it 'uses an effectively unbounded max elapsed time value compatible with retriable validation' do
       retry_config = Lhm::SqlRetry.new(nil).send(:default_retry_config)
 
-      assert_nil retry_config[:max_elapsed_time]
+      assert_equal Float::MAX, retry_config[:max_elapsed_time]
     end
   end
 
