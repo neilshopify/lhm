@@ -1,4 +1,5 @@
 # Unreleased
+* Use concrete Trilogy connection exception classes in retry configuration.
 
 # 4.5.1 (Jul, 2025)
 * Create update before insert trigger

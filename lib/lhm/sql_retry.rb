@@ -198,15 +198,27 @@ module Lhm
           /connection is locked to hostgroup/,
           /The MySQL server is running with the --read-only option so it cannot execute this statement/,
         ],
-        Trilogy::ConnectionError => nil,
-        Trilogy::TimeoutError => nil,
       }
+
+      retriable_trilogy_connection_error_classes.each do |error_class|
+        errors[error_class] = nil
+      end
 
       if ActiveRecord::VERSION::STRING >= "7.1"
         errors[ActiveRecord::ConnectionFailed] = nil
       end
 
       errors
+    end
+
+    def retriable_trilogy_connection_error_classes
+      errors = []
+      errors << Trilogy::BaseConnectionError if defined?(Trilogy::BaseConnectionError)
+      errors << Trilogy::SSLError if defined?(Trilogy::SSLError)
+      errors << Trilogy::ConnectionClosed if defined?(Trilogy::ConnectionClosed)
+      errors.concat(Trilogy::SyscallError::ERRORS.values) if defined?(Trilogy::SyscallError::ERRORS)
+
+      errors.uniq.select { |error_class| error_class.is_a?(Class) && error_class <= Exception }
     end
   end
 end
