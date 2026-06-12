@@ -5,6 +5,14 @@ require 'lhm/sql_retry'
 require 'trilogy'
 
 describe Lhm::SqlRetry do
+  describe '#default_retry_config' do
+    it 'uses an unbounded max elapsed time value compatible with retriable validation' do
+      retry_config = Lhm::SqlRetry.new(nil).send(:default_retry_config)
+
+      assert_nil retry_config[:max_elapsed_time]
+    end
+  end
+
   describe '#retriable_trilogy_errors' do
     it 'only uses exception classes as retriable keys' do
       retry_errors = Lhm::SqlRetry.new(nil).send(:retriable_trilogy_errors)
